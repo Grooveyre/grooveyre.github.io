@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<link rel="shortcut icon" href="{%	static 'favicon.png' %}">
+
+	<title>Aurélie & Antonin se marient le 13 juillet 2019</title>
+
+	<meta name="description" property="og:description" content="Ok pour partager notre site sur internet, mais faites pas venir des gens qu'on connaît pas, hein?">
+
+	<meta property="og:image" content="https://i.imgur.com/jLbPZVf.jpg" />
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
+</head>
+
+<body>
+
+	<div class="save-the-date--image">
+		<img class="animated flip save-the-date--label" src="save-the-date--label.png" />
+		<img class="levitate save-the-date--date" src="save-the-date--date.png" />
+		<audio src="can-you-feel-the-love-tonight.mp3" autoplay preload="auto" />
+	</div>
+
+</body>
+
+<style>
+
+	.save-the-date--image {
+		height: 100vh;
+		background-size: cover;
+		background-position: center center;
+		position: relative;
+	}
+
+	.save-the-date--image { background-image: url('save-the-date--image.jpg'); }
+	.save-the-date--label { position: absolute; left: 7vw; bottom: 10vh; height: 10vw; min-height: 20vh; }
+	.save-the-date--date { position: absolute; right: 28vw; top: 4vh; height: 10vw; min-height: 20vh; }
+
+	@media(max-width: 540px) { 
+		.save-the-date--date { right: 5vw; top: 10vh; }
+	}
+
+	@keyframes do-levitation {
+		0% { transform: translate(0, 0); }
+		100% { transform: translate(0, 0.5em); }
+	}
+
+	.levitate { animation: do-levitation 1.2s alternate ease-in-out infinite; }
+
+
+</style>
+
+</html>
