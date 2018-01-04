@@ -33,6 +33,7 @@
 <body>
 
 	<div class="save-the-date--image">
+		<!-- Mais qu'est-ce que tu fais là ??? -->
 		<img class="animated flip save-the-date--label" src="save-the-date--label.png" />
 		<img class="levitate save-the-date--date" src="save-the-date--date.png" />
 		<audio src="can-you-feel-the-love-tonight.mp3" autoplay preload="auto" />
@@ -42,11 +43,18 @@
 
 <style>
 
+body { overflow: hidden; }
+
 	.save-the-date--image {
 		height: 100vh;
 		background-size: cover;
 		background-position: center center;
 		position: relative;
+		transition: 20s transform;
+	}
+
+	.save-the-date--image:hover {
+		transform: scale(1.1);
 	}
 
 	.save-the-date--image { background-image: url('save-the-date--image.jpg'); }
