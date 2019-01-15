@@ -8,8 +8,8 @@
 </head>
 
 <section class="current">
-  <h1>RSVP</h1>
-  <p>Texte d'intro</p>
+  <h1>Votre présence au mariage d'Aurélie & Antonin</h1>
+  <p>Bonjour <span data-display="destinataire"></span> !</p>
   <button class="section__next btn btn-outline-danger">Continuer</button>
 </section>
 
@@ -17,35 +17,7 @@
 
   <h2>À la mairie...</h2>
   <p class="subtitle"><small>Le 27 avril à 11h, à Paris</small></p>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="vient_en_solo_paris" name="participation_civil" value="vient_en_solo_paris">
-    <label class="form-check-label" for="vient_en_solo_paris">
-      Je viens seul·e !
-    </label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="vient_en_couple_paris" name="participation_civil" value="vient_en_couple_paris">
-    <label class="form-check-label" for="vient_en_couple_paris">
-      On vient à deux !
-    </label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="ne_vient_pas_paris" name="participation_civil" value="ne_vient_pas_paris">
-    <label class="form-check-label" for="ne_vient_pas_paris">
-      Je ne pourrais pas venir !
-    </label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="ne_sait_pas_paris" name="participation_civil" value="ne_sait_pas_paris">
-    <label class="form-check-label" for="ne_sait_pas_paris">
-      Je ne sais pas encore !
-    </label>
-  </div>
-
+  <div data-list-of-options="invites" data-prefix="paris"></div>
   <button class="section__next btn btn-outline-danger">Valider</button>
 
 </section>
@@ -54,42 +26,14 @@
 
   <h2>À la cérémonie de mariage...</h2>
   <p class="subtitle"><small>Le 13 juillet à 16h, à Poilly-sur-Tholon</small></p>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="vient_en_solo_poilly" name="participation_ceremonie" value="vient_en_solo">
-    <label class="form-check-label" for="vient_en_solo_poilly">
-      Je viens seul·e !
-    </label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="vient_en_couple_poilly" name="participation_ceremonie" value="vient_en_couple">
-    <label class="form-check-label" for="vient_en_couple_poilly">
-      On vient à deux !
-    </label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="ne_vient_pas_poilly" name="participation_ceremonie" value="ne_vient_pas">
-    <label class="form-check-label" for="ne_vient_pas_poilly">
-      Je ne pourrais pas venir !
-    </label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="ne_sait_pas_poilly" name="participation_ceremonie" value="ne_sait_pas">
-    <label class="form-check-label" for="ne_sait_pas_poilly">
-      Je ne sais pas encore !
-    </label>
-  </div>
-
+  <div data-list-of-options="invites" data-prefix="poilly"></div>
   <button class="section__next btn btn-outline-danger">Valider</button>
 
 </section>
 
 <section>
 
-  <h2>Repas</h2>
+  <h2>Repas & activités</h2>
   <p class="subtitle"><small>Bla bla 10€/pers.</small></p>
 
   <div class="form-check">
@@ -162,6 +106,12 @@
 
   :root { --primary-color: #c72c48; }
 
+  html { font-size: 12px; }
+  @media (min-width: 576px) { html { font-size: 14px; } }
+  @media (min-width: 768px) { html { font-size: 14px; } }
+  @media (min-width: 992px) { html { font-size: 16px; } }
+  @media (min-width: 1200px) { html { font-size: 18px; } }
+
   body {
     background-image: url('images/auxerre.jpg');
     background-repeat: no-repeat;
@@ -170,7 +120,12 @@
     background-position: center center;
   }
 
-  section { max-width: 40rem; margin: 0 auto; padding: 1rem 4rem; font-size: 18px; border-left: 6px solid var(--primary-color); position: relative; background-color: rgba(255,255,255,0.9); box-shadow: 0 0 1rem .25rem rgba(0,0,0,.25); border-radius: 1px; transition: opacity .3s ease-out; }
+  h1, h2, h3, h4, h5, h6 { line-height: 1.2; font-weight: 500; margin-top: 0; margin-bottom: .5rem; }
+  h1 { font-size: 2rem; }
+
+  section { max-width: 40rem; margin: 0 auto; padding: 1rem; border-left: 6px solid var(--primary-color); position: relative; background-color: rgba(255,255,255,0.9); box-shadow: 0 0 1rem .25rem rgba(0,0,0,.25); border-radius: 1px; transition: opacity .3s ease-out; }
+  @media (min-width: 576px) { section { padding: 1rem 4rem; } }
+
   section:not(.current) { opacity: .4; cursor: pointer; }
 
   section .section-cover { content: ""; display: block; background-color: white; position: absolute; top: 0; left: -6px; z-index: 1; cursor: pointer; opacity: 0; }
@@ -202,7 +157,84 @@
 
 <script>
 
+// Setting up data store and executors
+
+window.store = {
+  'airtable_id': false,
+  'destinataire': "",
+  'invites': [],
+  'paris': [],
+  'poilly': [],
+  'repas_activites': [],
+  'restrictions_alimentaires': null,
+  'restrictions_alimentaires_details': '',
+  'commentaires': ''
+}
+
+window.executors = {
+  'destinataire': [update_display],
+  'invites': [update_list_of_options]
+}
+
+function update_store(key, value, action="replace") {
+  if (action=="replace") {
+    store[key] = value
+  } else if (action=="push") {
+    store[key].push(value)
+  }
+  if (typeof executors[key] === 'undefined') {
+    executors[key] = []
+  } else {
+    executors[key].forEach(executor => { executor(key) })
+  }
+  return store[key]
+}
+
+function update_display(key) {
+  value = store[key]
+  $('[data-display="' + key + '"]').text(value)
+}
+
+function update_list_of_options(key) {
+  list = store[key]
+  var $lists_of_options = $('[data-list-of-options="' + key + '"]')
+  $lists_of_options.each(function(){
+    $list_of_options = $(this)
+    var html = ""
+    var prefix = $list_of_options.data('prefix')
+    console.log(prefix)
+    list.forEach(invitee => {
+      var name = invitee['name']
+      var slug = prefix + '_' + invitee['record_id']
+      html += `
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="${slug}" name="${slug}">
+        <label class="form-check-label" for="${slug}">
+          ${name}
+        </label>
+      </div>`
+    })
+    $list_of_options.html(html)
+  })
+}
+
 $(function(){
+
+  // Fetching AirTable ID from URL paramters
+
+  let searchParams = new URLSearchParams(window.location.search)
+  if(searchParams.has('id')){
+    let id = searchParams.get('id')
+    update_store('airtable_id', "rec" + id)
+  } else {
+    update_store('airtable_id', false)
+  }
+
+  // Fetching AirTable data
+
+  response = airtable.get('RSVP', store['airtable_id'], pull_airtable_data)
+
+  // Page Building
 
   $('section').wrap('<div class="section-wrapper"></div>')
   $('section').append('<div class="section-cover"></div>')
@@ -234,6 +266,60 @@ function goToNextSection($section) {
   var $nextSection = $section.closest('.section-wrapper').next().children('section').first()
   console.log($nextSection)
   focusOnThisSection($nextSection)
+}
+
+
+const DATABASE_URL = "https://api.airtable.com/v0/appnmJ4kX95S45tEM/"
+const API_KEY = "keyb0Dx3zRgfrZ0hx"
+let headers = {'authorization': 'Bearer ' + API_KEY, 'content-type': 'application/json'}
+
+$.ajaxSetup({headers: headers})
+
+var airtable = {
+  get: function (table, record_id, operation=console.log, extra_context=false) {
+    var url = DATABASE_URL + table + '/' + record_id
+    $.get(url).done(function(response){
+      operation(response, extra_context)
+    }).fail(function(response){
+      console.error(
+        "GET request has failed!" +
+        "\n URL: " + url +
+        "\n Status: " + response.status +
+        "\n Response: " + response.responseText)
+    })
+  },
+  list: function (table, operation=console.log, params="") {
+    var url = DATABASE_URL + table + '/' + params
+    console.log(url)
+    $.get(url).done(function(response){
+      operation(response)
+    }).fail(function(response){
+      console.error(
+        "GET request has failed!" +
+        "\n URL: " + url +
+        "\n Status: " + response.status +
+        "\n Response: " + response.responseText)
+    })
+  }
+}
+
+function push_airtable_record_to_store(response, extra_context) {
+  var data = response['fields']
+  data['record_id'] = response['id']
+  key = extra_context['store_key']
+  return update_store(key, data, 'push')
+}
+
+function pull_airtable_data(response, extra_context) {
+  var data = response['fields']
+  update_store('destinataire', data['destinataire'])
+  update_store('repas_activites', data['repas_activites'])
+  update_store('restrictions_alimentaires', data['restrictions_alimentaires'])
+  update_store('restrictions_alimentaires_details', data['restrictions_alimentaires_details'])
+  update_store('commentaires', data['commentaires'])
+  data['invites'].forEach(record_id => {
+    airtable.get('Invités', record_id, push_airtable_record_to_store, {'store_key': 'invites'})
+  })
 }
 
 </script>
