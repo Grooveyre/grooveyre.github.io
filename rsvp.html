@@ -3,103 +3,203 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#451366">
+  <meta name="robots" content="noindex">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="airtable.js"></script>
 </head>
 
-<section class="current">
-  <h1>Votre présence au mariage d'Aurélie & Antonin</h1>
-  <p>Bonjour <span data-display="destinataire"></span> !</p>
-  <button class="section__next btn btn-outline-danger">Continuer</button>
-</section>
+<body>
 
-<section>
+  <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet"> 
 
-  <h2>À la mairie...</h2>
-  <p class="subtitle"><small>Le 27 avril à 11h, à Paris</small></p>
-  <div data-list-of-options="invites" data-prefix="paris"></div>
-  <button class="section__next btn btn-outline-danger">Valider</button>
+  <div id="loader"><div class="loader-text">ça charge !</div></div>
 
-</section>
+  <section id="welcome" class="current displayed">
+    <h2>Votre présence au mariage <span>d'Aurélie et Antonin</span></h2>
+    <button class="section__next btn btn-outline-danger">Continuer</button>
+  </section>
 
-<section>
+  <section id="paris">
 
-  <h2>À la cérémonie de mariage...</h2>
-  <p class="subtitle"><small>Le 13 juillet à 16h, à Poilly-sur-Tholon</small></p>
-  <div data-list-of-options="invites" data-prefix="poilly"></div>
-  <button class="section__next btn btn-outline-danger">Valider</button>
+    <h2>Le samedi 27 avril à Paris</h2>
+    <p class="subtitle">Rendez-vous à 10h45 à la Mairie du 19ᵉ arrondissement pour notre union civile.</p>
+    <p class="subtitle"><strong>Cochez les cases des personnes qui seront présentes&nbsp;!</strong></p>
+    <div data-list-of-options="invites" data-prefix="paris"></div>
+    <button class="section__next btn btn-outline-danger">Continuer</button>
 
-</section>
+  </section>
 
-<section>
+  <section class="displayed">
 
-  <h2>Repas & activités</h2>
-  <p class="subtitle"><small>Bla bla 10€/pers.</small></p>
+    <h2>Le samedi 13 juillet à Auxerre</h2>
+    <p class="subtitle">Rendez-vous à 16h à Poilly-sur-Tholon, au "Domaine des Granges".</p>
+    <p class="subtitle"><strong>Cochez les cases des personnes qui seront présentes&nbsp;!</strong></p>
+    <div data-list-of-options="invites" data-prefix="poilly"></div>
+    <button id="poilly-button" class="section__next btn btn-outline-danger">Continuer</button>
 
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="diner_dimanche" name="diner_dimanche">
-    <label class="form-check-label" for="diner_dimanche">
-      Le dîner du dimanche soir
-    </label>
-  </div>
+  </section>
 
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="activites_lundi" name="activites_lundi">
-    <label class="form-check-label" for="activites_lundi">
-      Une des activités du lundi matin
-    </label>
-  </div>
+  <section class="poilly-extra">
 
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="dejeuner_lundi" name="dejeuner_lundi">
-    <label class="form-check-label" for="dejeuner_lundi">
-      Le déjeuner du lundi midi
-    </label>
-  </div>
+    <h2>Les dimanche 14 et lundi 15 juillet</h2>
+    <p class="subtitle">Nous serions heureux de prolonger la fête avec vous et vous proposons de rester avec nous jusqu'au lundi après-midi&nbsp;!</p>
+    <p class="subtitle"><strong>Cochez les éléments auxquels vous participerez !</strong></p>
 
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="ne_reste_pas" name="ne_reste_pas">
-    <label class="form-check-label" for="ne_reste_pas">
-      Rien de tout ça, je fais la fête et je me casse
-    </label>
-  </div>
+    <div class="form-check">
+      <input
+        class="form-check-input" type="checkbox"
+        name="repas_activites"
+        id="brunch" value="brunch"
+        onchange="sync(this)"
+        />
+      <label class="form-check-label" for="brunch">
+        Le brunch du dimanche midi
+      </label>
+    </div>
 
+    <div class="form-check">
+      <input
+        class="form-check-input" type="checkbox"
+        name="repas_activites"
+        id="diner_dimanche" value="diner_dimanche"
+        onchange="sync(this)"
+        />
+      <label class="form-check-label" for="diner_dimanche">
+        Le dîner du dimanche soir *
+      </label>
+    </div>
 
-  <button class="section__next btn btn-outline-danger">Valider</button>
+    <div class="form-check">
+      <input
+        class="form-check-input" type="checkbox"
+        name="repas_activites"
+        id="activites_lundi" value="activites_lundi"
+        onchange="sync(this)"
+        />
+      <label class="form-check-label" for="activites_lundi">
+        Une des activités culturelles ou sportives du lundi matin *
+      </label>
+    </div>
 
-</section>
+    <div class="form-check">
+      <input
+        class="form-check-input" type="checkbox"
+        name="repas_activites"
+        id="dejeuner_lundi" value="dejeuner_lundi"
+        onchange="sync(this)"
+        />
+      <label class="form-check-label" for="dejeuner_lundi">
+        Le déjeuner du lundi midi *
+      </label>
+    </div>
 
-<section>
+    <div class="form-check">
+      <input
+        class="form-check-input" type="checkbox"
+        name="repas_activites"
+        id="ne_reste_pas" value="ne_reste_pas"
+        onchange="sync(this)"
+        />
+      <label class="form-check-label" for="ne_reste_pas">
+        Je ne peux rester ni le dimanche ni le lundi
+      </label>
+    </div>
+    <div style="font-style: italic; font-size: .8em; margin-top: .5rem;">
+      <p style="margin-bottom: .5rem;">• Pour les repas du dimanche soir et du lundi midi, une participation de 10€/adulte/repas vous sera demandée</p>
+      <p>• Pour les activités facultatives du lundi matin, une participation de 10€ à 15€ vous sera demandée, selon l'activité choisie</p>
+    </p>
+    </div>
 
-  <h2>Vos restrictions alimentaires</h2>
-  <p class="subtitle"><small>Allergique aux mandarines sauvages des Andes ?</small></p>
+    <button class="section__next btn btn-outline-danger">Continuer</button>
 
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="mange_de_tout" name="restrictions_alimentaires" value="mange_de_tout">
-    <label class="form-check-label" for="mange_de_tout">
-      Je n'ai pas de restrictions alimentaires
-    </label>
-  </div>
+  </section>
 
-  <div class="form-check">
-    <input class="form-check-input" type="radio" id="regime_special" name="restrictions_alimentaires" value="regime_special">
-    <label class="form-check-label" for="regime_special">
-      J'ai des restrictions alimentaires
-    </label>
-  </div>
+  <section class="poilly-extra">
 
-  <div class="form-group">
-    <label for="restrictions_alimentaires">
-      Lesquelles ?
-    </label>
-    <textarea class="form-control" id="restrictions_alimentaires_details" name="restrictions_alimentaires_details" rows="3"></textarea>
-  </div>
+    <h2>Vos restrictions alimentaires</h2>
 
-  <button class="section__next btn btn-outline-danger">Valider</button>
+    <div class="form-check">
+      <input
+        id="mange_de_tout" value="mange_de_tout"
+        name="restrictions_alimentaires"
+        class="form-check-input" type="radio"
+        onchange="sync(this)"
+        />
+      <label class="form-check-label" for="mange_de_tout">
+        Je n'ai (nous n'avons) pas de restrictions alimentaires
+      </label>
+    </div>
 
-</section>
+    <div class="form-check">
+      <input
+        id="regime_special" value="regime_special"
+        name="restrictions_alimentaires"
+        class="form-check-input" type="radio"
+        onchange="sync(this)"
+        />
+      <label class="form-check-label" for="regime_special">
+        J'ai (nous avons) des restrictions alimentaires
+      </label>
+    </div>
 
+    <div class="form-group" style="display: none;">
+      <label for="restrictions_alimentaires_details">
+        Lesquelles ? Si vous êtes plusieurs, précisez qui est allergique !
+      </label>
+      <textarea
+        id="restrictions_alimentaires_details" name="restrictions_alimentaires_details"
+        class="form-control" rows="3"
+        onchange="sync(this)"
+        ></textarea>
+    </div>
 
+    <button class="section__next btn btn-outline-danger">Continuer</button>
+
+  </section>
+
+  <section class="poilly-extra poilly-noshow">
+
+    <h2>Un commentaire ?</h2>
+    <div class="form-group">
+      <label for="comment">
+        Dites-nous ce que vous avez sur le coeur !
+      </label>
+      <textarea
+        id="commentaires" name="commentaires"
+        class="form-control" rows="3"
+        onchange="sync(this)"
+      ></textarea>
+    </div>
+
+    <button class="section__next btn btn-outline-danger">Continuer</button>
+
+  </section>
+
+  <section class="poilly-extra">
+
+    <h2>Merci !</h2>
+    <p>Votre réponse est bien enregistrée !</p>
+    <p>Nous avons hâte de vous retrouver !</p>
+    <p>Pour finir, vous pouvez dès maintenant pré-réserver un hébergement parmi ceux que nous vous proposons.</p>
+    <p><strong>Attention</strong>, le mariage ayant lieu en saison haute, la plupart des hébergements doivent être réservés avant fin février !</p>
+    <a class="section__next btn btn-danger" href="pages.html#dormir">→ Voir les hébergements</a>
+
+  </section>
+
+  <section class="poilly-noshow">
+
+    <h2>Merci !</h2>
+    <p>Votre réponse est bien enregistrée !</p>
+    <p>Nous sommes tristes d'apprendre que vous ne pourrez pas être parmis nous à Auxerre, mais espérons vous revoir très vite !</p>
+    <a class="section__next btn btn-danger" href="index.html">Retour à l'accueil</a>
+
+  </section>
+
+</body>
 
 
 <style>
@@ -120,24 +220,51 @@
     background-position: center center;
   }
 
-  h1, h2, h3, h4, h5, h6 { line-height: 1.2; font-weight: 500; margin-top: 0; margin-bottom: .5rem; }
-  h1 { font-size: 2rem; }
+  h1, h2, h3, h4, h5, h6 { line-height: 1.2; font-weight: 500; margin-top: 0; margin-bottom: 1rem; }
+  h1 { font-size: 3.5rem; font-family: Caveat, Georgia, cursive; line-height: 1; }
+  h1 span, h2 span, h3 span { display: inline-block; }
+  h2 { font-size: 2.4rem; font-family: Caveat, Georgia, cursive; }
 
-  section { max-width: 40rem; margin: 0 auto; padding: 1rem; border-left: 6px solid var(--primary-color); position: relative; background-color: rgba(255,255,255,0.9); box-shadow: 0 0 1rem .25rem rgba(0,0,0,.25); border-radius: 1px; transition: opacity .3s ease-out; }
-  @media (min-width: 576px) { section { padding: 1rem 4rem; } }
+  section {
+    max-width: 40rem;
+    margin: 8rem auto;
+    padding: 2rem;
+    border-left: 6px solid var(--primary-color);
+    position: relative;
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0 0 1rem .25rem rgba(0,0,0,.25);
+    border-radius: 1px; opacity: 1;
+    transition: opacity .3s ease-out, transform .2s ease-out;
+  }
+
+  @media (min-width: 576px) { section { padding: 2rem 4rem; } }
 
   section:not(.current) { opacity: .4; cursor: pointer; }
 
-  section .section-cover { content: ""; display: block; background-color: white; position: absolute; top: 0; left: -6px; z-index: 1; cursor: pointer; opacity: 0; }
+  section .section-cover { content: ""; display: block; background-color: white; position: absolute; top: 0; left: -6px; cursor: pointer; opacity: 0; }
   section:not(.current) .section-cover { height: 100%; width: calc(100% + 6px); opacity: .5; }
 
-  .section-wrapper {
-    padding-top: 8rem;
-  }
+  body section.current .updating { opacity: 0; transition: opacity 1s ease-out; margin-left: .5rem; position: relative; top: .25rem; }
+  body.show-updating section.current .updating { opacity: 1; transition: opacity .1s ease-out; }
+  body.show-updating section.current .updating::after { content: "Enregistrement ..."; }
 
+  section:not(.displayed) { display: none; }
+
+  #loader {
+    height: 100%; width: 100%; position: fixed; top: 0; z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #loader .loader-text {
+    color: white; background-color: rgba(0,0,0,.8);
+    padding: .2rem 1.5rem .5rem; font-size: 2rem; border-radius: .5rem;
+    box-shadow: 0 0 1rem .25rem rgba(0,0,0,.25);
+  }
+  #loader ~ section { opacity: 0; transform: translateY(2rem); }
 
   .form-check { margin: .25rem 0; }
-  .subtitle { opacity: .9; margin-top: -.5rem; font-family: Georgia; }
+  .subtitle { opacity: .8; margin-top: -.5rem; font-family: Georgia; }
   input[type="radio"], input[type="checkbox"] { position: relative; top: 0px; }
   .section__next { margin-top: .5rem; }
 
@@ -159,34 +286,46 @@
 
 // Setting up data store and executors
 
-window.store = {
-  'airtable_id': false,
-  'destinataire': "",
-  'invites': [],
-  'paris': [],
-  'poilly': [],
-  'repas_activites': [],
-  'restrictions_alimentaires': null,
-  'restrictions_alimentaires_details': '',
-  'commentaires': ''
-}
+window.store = { 'airtable_id': false, 'invites': {} }
 
 window.executors = {
   'destinataire': [update_display],
-  'invites': [update_list_of_options]
+  'paris': [update_airtable],
+  'poilly': [update_airtable],
+  'repas_activites': [update_airtable],
+  'restrictions_alimentaires': [update_airtable, toggle_details],
+  'restrictions_alimentaires_details': [update_airtable],
+  'commentaires': [update_airtable]
 }
 
-function update_store(key, value, action="replace") {
+function update_store(key, value, action="replace", data=null) {
+
+  // Triggering the appropriate action
   if (action=="replace") {
     store[key] = value
+
   } else if (action=="push") {
+    if (!Array.isArray(store[key])) {
+      console.error("Cannot use action 'push' to update_store with key '" +
+        key + "', as it is not an array, and cannot be pushed to!")}
     store[key].push(value)
+
+  } else if (action=="pull") {
+    if (!Array.isArray(store[key])) {
+      console.error("Cannot use action 'pull' to update_store with key '" +
+        key + "', as it is not an array, and cannot be pulled from!")}
+    store[key] = store[key].filter(item => item !== value)
+  } else if (action=="edit") {
+    store[key][value] = data
   }
+
+  // Triggering executors
   if (typeof executors[key] === 'undefined') {
     executors[key] = []
   } else {
     executors[key].forEach(executor => { executor(key) })
   }
+
   return store[key]
 }
 
@@ -195,27 +334,55 @@ function update_display(key) {
   $('[data-display="' + key + '"]').text(value)
 }
 
-function update_list_of_options(key) {
-  list = store[key]
-  var $lists_of_options = $('[data-list-of-options="' + key + '"]')
-  $lists_of_options.each(function(){
-    $list_of_options = $(this)
-    var html = ""
-    var prefix = $list_of_options.data('prefix')
-    console.log(prefix)
-    list.forEach(invitee => {
-      var name = invitee['name']
-      var slug = prefix + '_' + invitee['record_id']
-      html += `
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="${slug}" name="${slug}">
-        <label class="form-check-label" for="${slug}">
-          ${name}
-        </label>
-      </div>`
-    })
-    $list_of_options.html(html)
+function update_input(key) {
+  var $input = $(`[name=${key}]`)
+  $input.each(i => {
+    var input = $input[i]
+    var value = input.value
+    if (input.type == 'checkbox' || input.type == 'radio') {
+      input.checked = store[key].includes(value)
+    } else if (input.type == 'textarea') {
+      input.value = store[key]
+    }
   })
+}
+
+function update_airtable(key) {
+  var data = {}
+  data[key] = store[key]
+  airtable.update('RSVP', store['airtable_id'], data)
+}
+
+function sync(element) {
+  if (element.type == "checkbox") {
+    key = element.name
+    checked = element.checked
+    value = element.value
+    if (store[key].includes(value)) {
+      if (!checked) { update_store(key, value, action="pull") }
+    } else {
+      if (checked) { update_store(key, value, action="push") }
+    }
+  } else if (element.type == "radio") {
+    value = element.value
+    checked = element.checked
+    key = element.name
+    if (checked) { update_store(key, value) }
+  } else if (element.type == "textarea") {
+    value = element.value
+    key = element.name
+    update_store(key, value)
+  }
+}
+
+function toggle_details(key) {
+  $target = `#${key}_details`
+  $formGroup = $($target).closest('.form-group')
+  if (store[key] == "regime_special") {
+    $formGroup.slideDown()
+  } else {
+    $formGroup.slideUp()
+  }
 }
 
 $(function(){
@@ -225,7 +392,7 @@ $(function(){
   let searchParams = new URLSearchParams(window.location.search)
   if(searchParams.has('id')){
     let id = searchParams.get('id')
-    update_store('airtable_id', "rec" + id)
+    update_store('airtable_id', id)
   } else {
     update_store('airtable_id', false)
   }
@@ -236,10 +403,12 @@ $(function(){
 
   // Page Building
 
-  $('section').wrap('<div class="section-wrapper"></div>')
+  $('section').append('<span class="updating"></span>')
   $('section').append('<div class="section-cover"></div>')
 
   $('.section-cover').click(function(e){
+    // When a user clicks on an inactive section,
+    // we'll change the focus to this section 
     var $section = $(this).closest('section')
     if (!$section.hasClass('current')) {
       e.preventDefault()
@@ -247,80 +416,160 @@ $(function(){
     }
   })
 
+  $('#poilly-button').click(function(e){
+    if (store.poilly.length) {
+      $('.poilly-noshow').removeClass('displayed')
+      $('.poilly-extra').addClass('displayed')
+  } else {
+      $('.poilly-extra').removeClass('displayed')
+      $('.poilly-noshow').addClass('displayed')
+    }
+    airtable.update('RSVP', store['airtable_id'], data={'has_responded': true})
+  })
+
   $('section button').click(function(e){
+    // When a user clicks the "continue" button of a section
+    // we will change focus to the following section. 
     var $section = $(this).closest('section')
     if ($section.hasClass('current')) {
-      goToNextSection($section)
+      var $nextSection = getNextVisibleSection($section)
+      focusOnThisSection($nextSection)
     }
   })
 
 })
 
+function getNextVisibleSection($section) {
+  $nextSection = $section.next()
+  var counter = 0
+  while (!$nextSection.hasClass('displayed') && counter < 5) {
+    counter ++
+    $nextSection = $nextSection.next()
+  }
+  return $nextSection
+}
+
+
 function focusOnThisSection($section) {
   $('section.current').removeClass('current')
   $section.addClass('current')
-  $section.closest('.section-wrapper').get(0).scrollIntoView({ behavior: 'smooth' })
+  $section.get(0).scrollIntoView({behavior: "smooth", block: "center"})
 }
 
-function goToNextSection($section) {
-  var $nextSection = $section.closest('.section-wrapper').next().children('section').first()
-  console.log($nextSection)
-  focusOnThisSection($nextSection)
-}
-
-
-const DATABASE_URL = "https://api.airtable.com/v0/appnmJ4kX95S45tEM/"
-const API_KEY = "keyb0Dx3zRgfrZ0hx"
-let headers = {'authorization': 'Bearer ' + API_KEY, 'content-type': 'application/json'}
-
-$.ajaxSetup({headers: headers})
-
-var airtable = {
-  get: function (table, record_id, operation=console.log, extra_context=false) {
-    var url = DATABASE_URL + table + '/' + record_id
-    $.get(url).done(function(response){
-      operation(response, extra_context)
-    }).fail(function(response){
-      console.error(
-        "GET request has failed!" +
-        "\n URL: " + url +
-        "\n Status: " + response.status +
-        "\n Response: " + response.responseText)
-    })
-  },
-  list: function (table, operation=console.log, params="") {
-    var url = DATABASE_URL + table + '/' + params
-    console.log(url)
-    $.get(url).done(function(response){
-      operation(response)
-    }).fail(function(response){
-      console.error(
-        "GET request has failed!" +
-        "\n URL: " + url +
-        "\n Status: " + response.status +
-        "\n Response: " + response.responseText)
-    })
-  }
-}
-
-function push_airtable_record_to_store(response, extra_context) {
+function add_airtable_record_to_store(response, extra_context) {
   var data = response['fields']
-  data['record_id'] = response['id']
-  key = extra_context['store_key']
-  return update_store(key, data, 'push')
+  var record_id = extra_context['record_id']
+  var key = extra_context['store_key']
+  return update_store(key, record_id, action="edit", data=data)
 }
 
 function pull_airtable_data(response, extra_context) {
+
+  var fields = {
+    'destinataire': 'text',
+    'invite_paris': 'bool',
+    'membres': 'array',
+    'paris': 'array',
+    'poilly': 'array',
+    'repas_activites': 'array',
+    'restrictions_alimentaires': 'text',
+    'restrictions_alimentaires_details': 'text',
+    'commentaires': 'text'
+  }
+    
   var data = response['fields']
-  update_store('destinataire', data['destinataire'])
-  update_store('repas_activites', data['repas_activites'])
-  update_store('restrictions_alimentaires', data['restrictions_alimentaires'])
-  update_store('restrictions_alimentaires_details', data['restrictions_alimentaires_details'])
-  update_store('commentaires', data['commentaires'])
-  data['invites'].forEach(record_id => {
-    airtable.get('Invités', record_id, push_airtable_record_to_store, {'store_key': 'invites'})
+
+  for(var field in fields) {
+    var fieldType = fields[field]
+    if (typeof data[field] === 'undefined') {
+      if (fieldType == 'object') {
+        window.store[field] = {}
+      } else if (fieldType == 'array') {
+        window.store[field] = []
+      } else if (fieldType == 'bool') {
+        window.store[field] = false
+      } else if (fieldType == 'text') {
+        window.store[field] = ""
+      } else {
+        console.error("Invalid field type:", fieldType)
+      }
+    } else {
+      window.store[field] = data[field]
+    }
+  }
+
+  // Build form based on AirTable data 
+  var membres = data['membres']
+
+  membres.forEach(record_id => {
+    airtable.get('Invités', record_id, add_airtable_record_to_store, extra_context={
+      'store_key': 'invites',
+      'record_id': record_id
+    })
+  })
+  buildFormIfReady()
+}
+
+function buildFormIfReady() {
+  var ready = true
+  store.membres.forEach(member => {
+    if (typeof store.invites[member] === 'undefined') { ready = false }
+  })
+  if (ready) { buildForm() }
+  else { window.setTimeout("buildFormIfReady();", 200); }
+}
+
+
+
+function buildForm() {
+  buildGuestList()
+  $('#loader').fadeOut('slow').remove()
+  if (store.invite_paris) { $('#paris').addClass('displayed') }
+  update_input('repas_activites')
+  update_input('restrictions_alimentaires')
+  toggle_details('restrictions_alimentaires')
+  update_input('restrictions_alimentaires_details')
+  update_input('commentaires')
+}
+
+function buildGuestList() {
+
+  list = store['invites']
+
+  // Fetching a list of questions that will need the list of guests
+  var $lists_of_options = $('[data-list-of-options="invites"]')
+
+  // For each question, add the list of guests as possible answers
+  $lists_of_options.each(function(){
+    $list_of_options = $(this)
+    var html = ""
+    var prefix = $list_of_options.data('prefix')
+    // Build the html template for each guest
+    for (var record_id in store.invites) {
+      invitee = store.invites[record_id]
+      var name = invitee['name']
+      var slug = prefix + '_' + record_id
+      if (store[prefix].includes(record_id)) { var isChecked = "checked" } else { var isChecked = "" }
+      var checked = store[prefix].includes(record_id)
+      html += `
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox"
+          id="${slug}"
+          ${isChecked}
+          name="${prefix}"
+          value="${record_id}"
+          onchange="sync(this)"
+        />
+        <label class="form-check-label" for="${slug}">
+          ${name}
+        </label>
+      </div>`
+    }
+    // Add the html list of checkboxes to the question
+    $list_of_options.html(html)
   })
 }
+
 
 </script>
 
