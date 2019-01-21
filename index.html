@@ -9,26 +9,36 @@
   <meta name="robots" content="noindex">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.0/marked.min.js"></script>
   <script src="airtable.js"></script>
+  <script src="contentful.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet">
 </head>
 
 <body>
 
-  <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet"> 
-
-  <audio src="can-you-feel-the-love-tonight.mp3" autoplay="" preload="auto"></audio>
-
   <section class="section--transparent">
     <h1><span>Antonin et Aurélie</span> <span>se marient&nbsp;!</span></h1>
     <h3><span>Les 13, 14 et 15 juillet,</span> <span>à Auxerre</span></h3>
-  </section>
-
-  <section>
-    <h2>Répondez à notre invitation&nbsp;!</h2>
-    <p><select class="form-control" id="qui_etes_vous" placeholder="qui_etes_vous" onchange="replaceDestinataire()"></select></p>
-    <p><a id="go_to_rsvp" href="#" class="btn btn-danger">→ Continuer</a></p>
+    <div style="text-align: center;">
+      <audio src="can-you-feel-the-love-tonight.mp3" controls="controls" autoplay="" preload="auto"></audio>
     </div>
   </section>
+
+  <ul class="nav justify-content-center">
+    <li class="nav-item"><a class="nav-link" href="#accueil">Accueil</a></li>
+  </ul>
+
+  <div id="pages">
+    <div id="accueil" class="pageWrapper">
+      <section class="page">
+        <h3>Répondez à notre invitation&nbsp;!</h3>
+        <p><select class="form-control" id="qui_etes_vous" placeholder="qui_etes_vous" onchange="replaceDestinataire()"></select></p>
+        <p><a id="go_to_rsvp" href="#" class="btn btn-danger">→ Continuer</a></p>
+        </div>
+      </section>
+    </div>
+  </div>
 
   <section class="section--nopadding">
     <img style="max-width: 100%;" src="images/wedding-gif.gif"/>
@@ -61,14 +71,30 @@
     background-position: center center;
   }
 
-  h1, h2, h3, h4, h5, h6 { line-height: 1.2; font-weight: 500; margin-top: 0; margin-bottom: 1rem; }
+  h1, h2, h3, h4, h5, h6 { line-height: 1.1; font-weight: 500; margin-top: 0; margin-bottom: 1rem; }
 
   h1 { font-size: 3.5rem; font-family: Caveat, Georgia, cursive; line-height: 1; }
   h1 span, h2 span, h3 span { display: inline-block; }
-  h2 { font-size: 2.4rem; font-family: Caveat, Georgia, cursive; }
+  h2 { font-size: 2.8rem; font-family: Caveat, Georgia, cursive; text-align: center; }
+  h3 { font-size: 2rem; font-family: Caveat, Georgia, cursive; }
+
+  audio { margin: 1rem; margin-bottom: -2rem; border-radius: 4px; }
 
   .form-control:focus { box-shadow: 0 0 0 .2rem rgba(199, 44, 72, .25); border-color: rgba(199, 44, 72, .35); }
 
+  .nav {
+    max-width: 40rem;
+    margin: 2rem auto -.5rem;
+  }
+  .nav li {
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0 0 1rem .25rem rgba(0,0,0,.25);
+    border-radius: 4px;
+    margin-right: .5rem; margin-bottom: .5rem;
+  }
+
+  .nav a { color: inherit; }
+  .nav a:hover { text-decoration: underline; }
 
   section {
     max-width: 40rem;
@@ -104,6 +130,7 @@
     padding: 0;
   }
 
+
   @media (min-width: 576px) { section { padding: 2rem 4rem; } }
 
   .form-check { margin: .25rem 0; }
@@ -122,16 +149,51 @@
       border-color: var(--primary-color);
   }
 
+  .pageWrapper { position: relative; top: -50rem; padding-top: 50rem; margin-bottom: -50rem; pointer-events: none; }
+  .pageWrapper:not(:target) { display: none;  }
+  .page { pointer-events: all; }
+
 </style>
 
 <script>
 
 $(function(){
 
+  if (!window.location.hash) {
+    window.location.hash = "#accueil"
+  }
+
   // Fetching AirTable data
-  response = airtable.list('RSVP', add_rsvp_people)
+  airtable.list('RSVP', add_rsvp_people)
+
+  // Fetching Contentful data
+  contentful.list(
+    operation=addPages,
+    params="content_type=page&order=-fields.ordre"
+  )
 
 })
+
+function addPages(response) {
+  var pages = response.items
+  pages.forEach(page => {
+    page = page.fields
+    var pageHtml = `
+      <div id="${page.slug}" class="pageWrapper">
+        <section class="page">
+          <h2>${page.titre}</h2>
+          ${marked(page.content)}
+        </section>
+      </div>
+    `
+    var navHtml = `
+      <li class="nav-item"><a class="nav-link" href="#${page.slug}">${page.titre}</a></li>
+    `
+    $('#pages').append(pageHtml)
+    $('.nav').append(navHtml)
+  })
+  window.location.hash = window.location.hash
+}
 
 function add_rsvp_people(response, extra_context) {
   records = response.records.sort((a, b) => a.fields.destinataire.localeCompare(b.fields.destinataire))
@@ -148,6 +210,8 @@ function replaceDestinataire() {
   var destinataire = $('#qui_etes_vous').val()
   $('#go_to_rsvp').attr('href', "rsvp.html?id=" + destinataire )
 }
+
+
 
 </script>
 

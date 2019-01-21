@@ -1,13 +1,12 @@
 const DATABASE_URL = "https://api.airtable.com/v0/appnmJ4kX95S45tEM/"
 const API_KEY = "keyb0Dx3zRgfrZ0hx"
-let headers = {'authorization': 'Bearer ' + API_KEY, 'content-type': 'application/json'}
 
-$.ajaxSetup({headers: headers})
+var airtable_headers = {'authorization': 'Bearer ' + API_KEY, 'content-type': 'application/json'}
 
 var airtable = {
   get: function (table, record_id, operation=console.log, extra_context=false) {
     var url = DATABASE_URL + table + '/' + record_id
-    $.get(url).done(function(response){
+    $.ajax({url: url, type: 'GET', headers: airtable_headers}).done(function(response){
       operation(response, extra_context)
     }).fail(function(response){
       console.error(
@@ -22,7 +21,7 @@ var airtable = {
     var url = DATABASE_URL + table + '/' + record_id
     data = {'fields': data}
     data = JSON.stringify(data)
-    $.ajax({url: url, type: 'PATCH', data: data}).done(function(response){
+    $.ajax({url: url, type: 'PATCH', headers: airtable_headers, data: data}).done(function(response){
       $('body').removeClass("show-updating")
     }).fail(function(response){
       console.error(
@@ -35,7 +34,7 @@ var airtable = {
   },
   list: function (table, operation=console.log, params="") {
     var url = DATABASE_URL + table + '/' + params
-    $.get(url).done(function(response){
+    $.ajax({url: url, type: 'GET', headers: airtable_headers}).done(function(response){
       operation(response)
     }).fail(function(response){
       console.error(
