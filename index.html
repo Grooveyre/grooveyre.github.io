@@ -195,7 +195,9 @@ function addPages(response) {
     $('#pages').append(pageHtml)
     $('.nav').append(navHtml)
   })
-  window.location.hash = window.location.hash
+  var chromeSucks = window.location.hash
+  window.location.hash = "#potato"
+  window.location.hash = chromeSucks
 }
 
 function add_rsvp_people(response, extra_context) {
