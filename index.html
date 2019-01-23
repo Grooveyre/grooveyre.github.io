@@ -42,8 +42,9 @@
     </div>
   </div>
 
-  <section class="section--nopadding">
+  <section id="gif" class="section--nopadding">
     <img style="max-width: 100%;" src="images/wedding-gif.gif"/>
+    <div id="time-to-wedding"></div>
   </section>
 
   <section class="section--transparent">
@@ -133,6 +134,14 @@
     padding: 0;
   }
 
+  #gif { position: relative; }
+  #time-to-wedding {
+    font-size: 2rem;
+    position: absolute; top: 0; right: 0;
+    margin: 1rem 2rem;
+    font-family: Caveat, Georgia, cursive;
+    opacity: .9;
+  }
 
   @media (min-width: 576px) { section { padding: 2rem 4rem; } }
 
@@ -174,6 +183,13 @@ $(function(){
     operation=addPages,
     params="content_type=page&order=-fields.ordre"
   )
+
+  var time_to_wedding = Math.floor(( Date.parse("2019-07-13") - Date.parse(Date()) ) / 86400000); 
+  if (time_to_wedding > 0) { time_to_wedding = `j-${time_to_wedding}`}
+  else if (time_to_wedding < 0) { time_to_wedding = `j+${time_to_wedding}`}
+  else if (time_to_wedding == 0) { time_to_wedding = "C'est aujourd'hui !"}
+
+  $('#time-to-wedding').text(time_to_wedding)
 
 })
 
