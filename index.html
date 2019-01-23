@@ -184,7 +184,8 @@ $(function(){
     params="content_type=page&order=-fields.ordre"
   )
 
-  var time_to_wedding = Math.floor(( Date.parse("2019-07-13") - Date.parse(Date()) ) / 86400000); 
+  var today = new Date().toISOString().slice(0, 10)
+  var time_to_wedding = ( Date.parse("2019-07-13") - Date.parse(today) ) / 86400000
   if (time_to_wedding > 0) { time_to_wedding = `j-${time_to_wedding}`}
   else if (time_to_wedding < 0) { time_to_wedding = `j+${time_to_wedding}`}
   else if (time_to_wedding == 0) { time_to_wedding = "C'est aujourd'hui !"}
