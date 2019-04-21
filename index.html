@@ -8,6 +8,7 @@
   <meta name="theme-color" content="#451366">
   <meta name="robots" content="noindex">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/styles.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.0/marked.min.js"></script>
   <script src="airtable.js"></script>
@@ -58,83 +59,8 @@
 
 <style>
 
-  :root { --primary-color: #c72c48; }
-
-  html { font-size: 12px; }
-  @media (min-width: 576px) { html { font-size: 14px; } }
-  @media (min-width: 768px) { html { font-size: 14px; } }
-  @media (min-width: 992px) { html { font-size: 16px; } }
-  @media (min-width: 1200px) { html { font-size: 18px; } }
-
-  body {
-    background-image: url('images/auxerre.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center center;
-    font-family: Delius, sans-serif;
-  }
-
-  h1, h2, h3, h4, h5, h6 { line-height: 1.1; font-weight: 500; margin-top: 0; margin-bottom: 1rem; }
-
-  h1 { font-size: 3.6rem; font-family: Caveat, Georgia, cursive; line-height: 1; }
-  h1 span, h2 span, h3 span { display: inline-block; }
-  h2 { font-size: 3rem; font-family: Caveat, Georgia, cursive; text-align: center; }
-  h3 { font-size: 2.2rem; font-family: Caveat, Georgia, cursive; }
-
-  audio { margin: 1rem; margin-bottom: -2rem; border-radius: 4px; transform: scale(.9); }
-
-  .form-control:focus { box-shadow: 0 0 0 .2rem rgba(199, 44, 72, .25); border-color: rgba(199, 44, 72, .35); }
-
-  .nav {
-    max-width: 40rem;
-    margin: 2rem auto -.5rem;
-  }
-  .nav li {
-    background-color: rgba(255,255,255,0.9);
-    box-shadow: 0 0 1rem .25rem rgba(0,0,0,.25);
-    border-radius: 4px;
-    margin-right: .5rem; margin-bottom: .5rem;
-  }
-
-  .nav a { color: inherit; }
-  .nav a:hover { text-decoration: underline; }
-
-  section {
-    max-width: 40rem;
-    margin: 2rem auto;
-    padding: 2rem;
-    border-left: 6px solid var(--primary-color);
-    position: relative;
-    background-color: rgba(255,255,255,0.9);
-    box-shadow: 0 0 1rem .25rem rgba(0,0,0,.25);
-    border-radius: 1px; opacity: 1;
-    transition: opacity .3s ease-out, transform .2s ease-out;
-  }
-
-  section.section--transparent {
-    margin: 4rem auto;
-    text-align: center;
-    color: white;
-    background-color: transparent;
-    box-shadow: none;
-    padding: 0;
-    border-radius: 0;
-    border: none;
-    font-family: Caveat, Georgia, cursive;
-    text-shadow:
-      1px 1px .1rem rgba(0,0,0,.3),
-      -1px 1px .1rem rgba(0,0,0,.3),
-      1px -1px .1rem rgba(0,0,0,.3),
-      -1px -1px .1rem rgba(0,0,0,.3),
-      0 0 1rem rgba(0,0,0,.3);
-  }
-
-  section.section--nopadding {
-    padding: 0;
-  }
-
   #gif { position: relative; }
+
   #time-to-wedding {
     font-size: 2rem;
     position: absolute; top: 0; right: 0;
@@ -142,28 +68,6 @@
     font-family: Caveat, Georgia, cursive;
     opacity: .9;
   }
-
-  @media (min-width: 576px) { section { padding: 2rem 4rem; } }
-
-  .form-check { margin: .25rem 0; }
-  .subtitle { opacity: .8; margin-top: -.5rem; font-family: Georgia; }
-  input[type="radio"], input[type="checkbox"] { position: relative; top: 0px; }
-  .section__next { margin-top: .5rem; }
-
-  .btn-outline-danger {
-      color: var(--primary-color);
-      border-color: var(--primary-color);
-  }
-
-  .btn-outline-danger:hover {
-      color: #fff;
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-  }
-
-  .pageWrapper { position: relative; top: -50rem; padding-top: 50rem; margin-bottom: -50rem; pointer-events: none; }
-  .pageWrapper:not(:target) { display: none;  }
-  .page { pointer-events: all; }
 
 </style>
 
