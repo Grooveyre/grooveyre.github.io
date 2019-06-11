@@ -35,11 +35,9 @@
 
   <div id="pages">
     <div id="accueil" class="pageWrapper">
-      <section class="page" style="display: none;">
-        <h3>Répondez à notre invitation&nbsp;!</h3>
-        <p><select class="form-control" id="qui_etes_vous" placeholder="qui_etes_vous" onchange="replaceDestinataire()"></select></p>
-        <p><a id="go_to_rsvp" href="#accueil" class="btn btn-danger">→ Continuer</a></p>
-        </div>
+      <section class="page">
+        <p>As-tu encore un hébergement, une activité ou un repas à régler ?<br/>C'est par ici :</p>
+        <p><a class="btn btn-block btn-danger" href="https://hebergementsgrooveyre.pythonanywhere.com/">→ Finaliser ma réservation</a></p>
       </section>
     </div>
   </div>
@@ -80,9 +78,6 @@ $(function(){
     window.location.hash = "#accueil"
   }
 
-  // Fetching AirTable data
-  airtable.list('RSVP', add_rsvp_people)
-
   // Fetching Contentful data
   contentful.list(
     operation=addPages,
@@ -121,24 +116,6 @@ function addPages(response) {
   window.location.hash = "#potato"
   window.location.hash = chromeSucks
 }
-
-function add_rsvp_people(response, extra_context) {
-  records = response.records.sort((a, b) => a.fields.destinataire.localeCompare(b.fields.destinataire))
-  html = '<option value="" disabled selected>Qui êtes-vous ?</option>'
-  records.forEach(record => {
-    var value = record.id
-    var label = record.fields.destinataire
-    html += `<option value="${value}">${label}</option>`
-  })
-  $('#qui_etes_vous').html(html)
-}
-
-function replaceDestinataire() {
-  var destinataire = $('#qui_etes_vous').val()
-  $('#go_to_rsvp').attr('href', "rsvp.html?id=" + destinataire )
-}
-
-
 
 </script>
 
